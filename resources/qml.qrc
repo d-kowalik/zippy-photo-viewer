@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>ThumbnailDelegate.qml</file>
+        <file>FolderDelegate.qml</file>
+        <file>images/back_arrow.png</file>
+        <file>images/folder.png</file>
+        <file>images/hamburger.png</file>
+        <file>images/settings.png</file>
+        <file>SettingsView.qml</file>
+    </qresource>
+</RCC>
