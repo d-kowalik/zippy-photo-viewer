@@ -12,6 +12,7 @@
 
 #include "zip/archive.hpp"
 #include "zipitem.hpp"
+#include "modelrolemanager.h"
 
 class ZipItemModel : public QAbstractListModel
 {
@@ -33,14 +34,16 @@ private:
 
     QString _currentFile = "";
 
+    ModelRoleManager _roleManager;
+
     enum ItemModelRole { SOURCE, NAME, TYPE };
 
 public:
     ZipItemModel(QSharedPointer<Zip::Archive> archive, QObject* parent=nullptr);
 
     inline const int count() const { return _currentFolder->count(); }
-    inline const int imageCount() const { return _currentFolder->getFiles().count(); }
-    inline const int folderCount() const { return _currentFolder->getFolders().count(); }
+    inline const int imageCount() const { return _currentFolder->filesCount(); }
+    inline const int folderCount() const { return _currentFolder->childrenCount(); }
     inline const int currentImageIndex() const { return _currentImageIndex; }
     void setCurrentImageIndex(int index);
     void setCurrentImageIndexRaw(int index);
@@ -56,7 +59,8 @@ public:
     inline QSharedPointer<ZipItem> getCurrentFolder() const { return _currentFolder; }
     inline QSharedPointer<ZipItem> getRoot() const { return _root; }
 
-    inline int toFileIndex(int index) const { return index - folderCount(); }
+    inline int toFileIndex(int index) const { return toFileIndex(_currentFolder, index); }
+    static inline int toFileIndex(QSharedPointer<ZipItem> folder, int index) { return index - folder->childrenCount(); }
 
     // Super implementation
     inline int rowCount(const QModelIndex &parent) const override { return count(); }
@@ -64,6 +68,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     const QString makeSource(const QString& name) const;
+    static const QString makeSource(QSharedPointer<ZipItem> folder, const QString& name);
 
 private:
     void resetFileInfo();

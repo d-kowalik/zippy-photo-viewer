@@ -28,7 +28,9 @@ public:
     void addFile(const QString& name);
     void addFolder(QSharedPointer<ZipItem> folder);
 
-    inline const int count() const { return _files.size() + _folders.size(); }
+    inline const int count() const { return filesCount() + childrenCount(); }
+    inline const int childrenCount() const { return _folders.size(); }
+    inline const int filesCount() const { return _files.size(); }
 
     inline const bool isRoot() const { return _isRoot; }
     inline const bool contains(const QString& name) const { return _folders.contains(name); }
@@ -36,6 +38,7 @@ public:
     inline const QString& getName() const { return _name; }
     inline const QString& fullPath() const { return _fullPath; }
     inline const QString& getFile(int index) const { return _files[index]; }
+    inline const QString& getFolderName(int index) const { return _folders.keys()[index]; }
 
     inline const QSharedPointer<ZipItem> getFolder(const QString& name) const { return _folders[name]; }
     inline const QSharedPointer<ZipItem> getParent() const { return _parent; }

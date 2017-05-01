@@ -1,7 +1,7 @@
 #include "zipitemmodel.hpp"
 
 ZipItemModel::ZipItemModel(QSharedPointer<Zip::Archive> archive, QObject* parent)
-    : QAbstractListModel(parent), _archive(archive)
+    : QAbstractListModel(parent), _archive(archive), _roleManager{ModelRoleManager()}
 {
     reloadFolderStructure();
 }
@@ -50,52 +50,22 @@ const QString& ZipItemModel::parentFolderName() const
 
 QVariant ZipItemModel::data(const QModelIndex &index, int role) const
 {
-    bool isFolder = index.row() < _currentFolder->getFolders().count();
-    if (role == ItemModelRole::SOURCE)
-    {
-        if (isFolder)
-        {
-            auto& folderName = _currentFolder->getFolders().keys()[index.row()];
-            return QVariant(folderName);
-        }
-
-        return QVariant(makeSource(_currentFolder->getFile(toFileIndex(index.row()))));
-    }
-    else if (role == ItemModelRole::TYPE)
-    {
-        if (isFolder)
-        {
-            return QVariant("Folder");
-        }
-        return QVariant("Thumbnail");
-    }
-    else if (role == ItemModelRole::NAME)
-    {
-        if (isFolder)
-        {
-            auto& folderName = _currentFolder->getFolders().keys()[index.row()];
-            return QVariant(folderName);
-        }
-
-        return QVariant(_currentFolder->getFile(toFileIndex(index.row())));
-    }
-
-    qDebug() << "Error! No such role!";
-    return QVariant();
+    return _roleManager.data(_currentFolder, index, role);
 }
 
 QHash<int, QByteArray> ZipItemModel::roleNames() const
 {
-    QHash<int, QByteArray> roles;
-    roles[ItemModelRole::SOURCE] = "source";
-    roles[ItemModelRole::NAME] = "name";
-    roles[ItemModelRole::TYPE] = "type";
-    return roles;
+    return _roleManager.roleNames();
 }
 
 const QString ZipItemModel::makeSource(const QString& name) const
 {
-    return _currentFolder->fullPath() + name;
+    return makeSource(_currentFolder, name);
+}
+
+const QString ZipItemModel::makeSource(QSharedPointer<ZipItem> folder, const QString &name)
+{
+    return folder->fullPath() + name;
 }
 
 void ZipItemModel::reloadFolderStructure()
