@@ -9,5 +9,6 @@
         <file>images/hamburger.png</file>
         <file>images/settings.png</file>
         <file>SettingsView.qml</file>
+        <file>images/close.png</file>
     </qresource>
 </RCC>

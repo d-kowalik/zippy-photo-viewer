@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.1
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Dialogs 1.2
 import QtGraphicalEffects 1.0
+import QtQuick.Window 2.0
 
 ApplicationWindow {
     id: window
@@ -13,7 +14,8 @@ ApplicationWindow {
     height: 720
     minimumHeight: 480
     minimumWidth: 854
-    title: qsTr("Hello World")
+    title: qsTr("Zippy")
+    flags: Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.Window
 
     property alias stackView: mainStackView
     property alias window: window
@@ -40,24 +42,72 @@ ApplicationWindow {
         }
     }
 
+    header: ToolBar {
 
-    ToolButton {
-        width: 48
-        height: 48
-        z: 10
-        opacity: .53
+        MouseArea {
+            anchors.fill: parent;
+            property variant clickPos: "1,1"
 
-        anchors.top: window.top
-        anchors.left: window.left
+            onPressed: {
+                clickPos = Qt.point(mouse.x,mouse.y)
+            }
 
-        visible: mainImage.visible
-
-        contentItem: Image {
-            source: "images/hamburger.png"
+            onPositionChanged: {
+                var delta = Qt.point(mouse.x-clickPos.x, mouse.y-clickPos.y)
+                var new_x = window.x + delta.x
+                var new_y = window.y + delta.y
+                if (new_y <= 0)
+                    window.visibility = Window.Maximized
+                else
+                {
+                    if (window.visibility === Window.Maximized)
+                        window.visibility = Window.Windowed
+                    window.x = new_x
+                    window.y = new_y
+                }
+            }
         }
 
-        onClicked: {
-            drawer.open()
+        RowLayout {
+            spacing: 20
+            anchors.fill: parent
+
+            ToolButton {
+                width: 48
+                height: 48
+                z: 10
+
+                anchors.top: window.top
+                anchors.left: window.left
+
+                contentItem: Image {
+                    source: "images/hamburger.png"
+                }
+
+                onClicked: {
+                    drawer.open()
+                }
+            }
+
+            Label {
+                id: titleLabel
+                text: "Photo viewer"
+                font.pixelSize: 20
+                elide: Label.ElideRight
+                horizontalAlignment: Qt.AlignHCenter
+                verticalAlignment: Qt.AlignVCenter
+                Layout.fillWidth: true
+            }
+
+            ToolButton {
+                id: closeButton
+
+                contentItem: Image {
+                    source: "images/close.png"
+                }
+
+                onClicked: Qt.quit()
+            }
         }
     }
 
@@ -163,10 +213,10 @@ ApplicationWindow {
         }
 
         onDepthChanged: {
-            if (depth == 1) {
-                window.header = null
-                mainImage.focus = true
-            }
+//            if (depth == 1) {
+//                window.header = null
+//                mainImage.focus = true
+//            }
         }
 
         initialItem: Rectangle {
