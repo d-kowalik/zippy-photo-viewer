@@ -42,7 +42,7 @@ ItemDelegate {
         width: parent.width
         height: 20
         color: Material.primary
-        anchors.top: parent.top
+        anchors.bottom: parent.bottom
         visible: (model.name === myModel.currentFile)
 
         Label {
@@ -58,15 +58,7 @@ ItemDelegate {
         color: underline.color
         width: parent.width
         height: 1
-        anchors.bottom: parent.bottom
-        visible: underline.visible
-    }
-
-    Rectangle {
-        color: underline.color
-        width: parent.width
-        height: 1
-        anchors.bottom: parent.bottom
+        anchors.top: parent.top
         visible: underline.visible
     }
 
