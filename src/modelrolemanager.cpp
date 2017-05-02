@@ -1,4 +1,4 @@
-#include "modelrolemanager.h"
+#include "modelrolemanager.hpp"
 
 ModelRoleManager::ModelRoleManager()
 {

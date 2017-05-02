@@ -12,7 +12,7 @@
 
 #include "zip/archive.hpp"
 #include "zipitem.hpp"
-#include "modelrolemanager.h"
+#include "modelrolemanager.hpp"
 
 class ZipItemModel : public QAbstractListModel
 {

@@ -42,7 +42,7 @@ HEADERS += \
     src/zipitem.hpp \
     src/zipitemmodel.hpp \
     src/zip/archive.hpp \
-    src/modelrolemanager.h
+    src/modelrolemanager.hpp
 
 DISTFILES += \
     resources/FolderDelegate.qml \
