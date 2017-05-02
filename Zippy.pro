@@ -7,7 +7,8 @@ SOURCES += src/main.cpp \
     src/zipitem.cpp \
     src/zipitemmodel.cpp \
     src/zip/archive.cpp \
-    src/modelrolemanager.cpp
+    src/modelrolemanager.cpp \
+    src/foldermanager.cpp
 
 RESOURCES += resources/qml.qrc
 
@@ -42,7 +43,8 @@ HEADERS += \
     src/zipitem.hpp \
     src/zipitemmodel.hpp \
     src/zip/archive.hpp \
-    src/modelrolemanager.hpp
+    src/modelrolemanager.hpp \
+    src/foldermanager.hpp
 
 DISTFILES += \
     resources/FolderDelegate.qml \
