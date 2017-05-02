@@ -69,6 +69,8 @@ signals:
 public slots:
     void reloadFolderStructure();
     void refresh();
+    void goToNextImage();
+    void goToPreviousImage();
 };
 
 #endif // ZIPITEMMODEL_H

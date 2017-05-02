@@ -81,3 +81,35 @@ void FolderManager::resetFileInfo()
         setCurrentFile("");
 }
 
+void FolderManager::decrementCurrentFileIndex()
+{
+    auto newIndex = currentFileIndex();
+    if (newIndex == 0)
+        newIndex = filesCount() - 1;
+    else
+        newIndex--;
+    setCurrentFileIndexRaw(newIndex);
+}
+
+void FolderManager::incrementCurrentFileIndex()
+{
+    auto newIndex = currentFileIndex();
+    if (newIndex == filesCount() - 1)
+        newIndex = 0;
+    else
+        newIndex++;
+    setCurrentFileIndexRaw(newIndex);
+}
+
+void FolderManager::goToNextFile()
+{
+    incrementCurrentFileIndex();
+    setCurrentFile(currentFolder()->getFile(currentFileIndex()));
+}
+
+void FolderManager::goToPreviousFile()
+{
+    decrementCurrentFileIndex();
+    setCurrentFile(currentFolder()->getFile(currentFileIndex()));
+}
+

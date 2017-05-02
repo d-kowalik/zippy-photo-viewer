@@ -63,3 +63,19 @@ void ZipItemModel::refresh()
     emit imageCountChanged();
     this->endResetModel();
 }
+
+void ZipItemModel::goToNextImage()
+{
+    _folderManager.goToNextFile();
+    emit currentFileChanged();
+    emit currentFileFullPathChanged();
+    emit currentImageIndexChanged();
+}
+
+void ZipItemModel::goToPreviousImage()
+{
+    _folderManager.goToPreviousFile();
+    emit currentFileChanged();
+    emit currentFileFullPathChanged();
+    emit currentImageIndexChanged();
+}
