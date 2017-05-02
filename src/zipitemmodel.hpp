@@ -33,16 +33,16 @@ private:
 public:
     ZipItemModel(QSharedPointer<Zip::Archive> archive, QObject* parent=nullptr);
 
-    inline const int count() const { return _folderManager.count(); }
-    inline const int imageCount() const { return _folderManager.filesCount(); }
-    inline const int folderCount() const { return _folderManager.foldersCount(); }
-    inline const int currentImageIndex() const { return _folderManager.currentFileIndex(); }
+    inline int count() const { return _folderManager.count(); }
+    inline int imageCount() const { return _folderManager.filesCount(); }
+    inline int folderCount() const { return _folderManager.foldersCount(); }
+    inline int currentImageIndex() const { return _folderManager.currentFileIndex(); }
     void setCurrentImageIndex(int index);
     void setCurrentImageIndexRaw(int index);
 
 
     inline const QString& currentFile() const { return _folderManager.currentFile(); }
-    inline const QString currentFileFullPath() const { return _folderManager.currentFileFullPath(); }
+    inline QString currentFileFullPath() const { return _folderManager.currentFileFullPath(); }
     void setCurrentFile(const QString& file);
     inline const QString& currentFolderName() const { return _folderManager.currentFolderName(); }
     void setCurrentFolderName(const QString& name);

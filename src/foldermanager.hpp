@@ -18,15 +18,15 @@ private:
 public:
     FolderManager(QSharedPointer<Zip::Archive> archive);
 
-    inline const int count() const { return _currentFolder->count(); }
-    inline const int filesCount() const { return _currentFolder->filesCount(); }
-    inline const int foldersCount() const { return _currentFolder->childrenCount(); }
-    inline const int currentFileIndex() const { return _currentFileIndex; }
+    inline int count() const { return _currentFolder->count(); }
+    inline int filesCount() const { return _currentFolder->filesCount(); }
+    inline int foldersCount() const { return _currentFolder->childrenCount(); }
+    inline int currentFileIndex() const { return _currentFileIndex; }
     void setCurrentFileIndex(int index);
     inline void setCurrentFileIndexRaw(int index) { _currentFileIndex = index; }
 
     inline const QString& currentFile() const { return _currentFile; }
-    inline const QString currentFileFullPath() const { return makeSource(currentFile()); }
+    inline QString currentFileFullPath() const { return makeSource(currentFile()); }
     inline void setCurrentFile(const QString& file) { _currentFile = file; }
     inline const QString& currentFolderName() const { return _currentFolder->getName(); }
     void setCurrentFolderName(const QString& name);
@@ -37,8 +37,8 @@ public:
 
     inline int toFileIndex(int index) const { return toFileIndex(_currentFolder, index); }
     static inline int toFileIndex(QSharedPointer<ZipItem> folder, int index) { return index - folder->childrenCount(); }
-    inline const QString makeSource(const QString& name) const { return makeSource(_currentFolder, name); }
-    static inline const QString makeSource(QSharedPointer<ZipItem> folder, const QString& name) { return folder->fullPath() + name; }
+    inline QString makeSource(const QString& name) const { return makeSource(_currentFolder, name); }
+    static inline QString makeSource(QSharedPointer<ZipItem> folder, const QString& name) { return folder->fullPath() + name; }
 
     void reloadFolderStructure();
     void resetFileInfo();

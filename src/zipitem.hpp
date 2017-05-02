@@ -28,12 +28,12 @@ public:
     void addFile(const QString& name);
     void addFolder(QSharedPointer<ZipItem> folder);
 
-    inline const int count() const { return filesCount() + childrenCount(); }
-    inline const int childrenCount() const { return _folders.size(); }
-    inline const int filesCount() const { return _files.size(); }
+    inline int count() const { return filesCount() + childrenCount(); }
+    inline int childrenCount() const { return _folders.size(); }
+    inline int filesCount() const { return _files.size(); }
 
-    inline const bool isRoot() const { return _isRoot; }
-    inline const bool contains(const QString& name) const { return _folders.contains(name); }
+    inline bool isRoot() const { return _isRoot; }
+    inline bool contains(const QString& name) const { return _folders.contains(name); }
 
     inline const QString& getName() const { return _name; }
     inline const QString& fullPath() const { return _fullPath; }
