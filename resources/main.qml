@@ -42,6 +42,27 @@ ApplicationWindow {
         }
     }
 
+    Rectangle {
+        color: Material.primary
+        width: parent.width
+        height: 1
+        anchors.bottom: parent.bottom
+    }
+
+    Rectangle {
+        color: Material.primary
+        width: 1
+        height: parent.height
+        anchors.left: parent.left
+    }
+
+    Rectangle {
+        color: Material.primary
+        width: 1
+        height: parent.height
+        anchors.right: parent.right
+    }
+
     header: ToolBar {
         id: toolbar
 
