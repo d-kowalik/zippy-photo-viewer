@@ -16,7 +16,7 @@ private:
 
     QString _currentFile = "";
 public:
-    FolderManager();
+    FolderManager(QSharedPointer<Zip::Archive> archive);
 
     inline const int count() const { return _currentFolder->count(); }
     inline const int filesCount() const { return _currentFolder->filesCount(); }

@@ -1,6 +1,6 @@
 #include "foldermanager.hpp"
 
-FolderManager::FolderManager()
+FolderManager::FolderManager(QSharedPointer<Zip::Archive> archive) : _archive(archive)
 {
     reloadFolderStructure();
 }

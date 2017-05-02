@@ -13,6 +13,7 @@
 #include "zip/archive.hpp"
 #include "zipitem.hpp"
 #include "modelrolemanager.hpp"
+#include "foldermanager.hpp"
 
 class ZipItemModel : public QAbstractListModel
 {
@@ -26,52 +27,36 @@ class ZipItemModel : public QAbstractListModel
     Q_PROPERTY(QString currentFileFullPath READ currentFileFullPath NOTIFY currentFileFullPathChanged)
 
 private:
-    QSharedPointer<ZipItem> _root;
-    QSharedPointer<ZipItem> _currentFolder;
-    QSharedPointer<Zip::Archive> _archive;
-
-    int _currentImageIndex;
-
-    QString _currentFile = "";
-
     ModelRoleManager _roleManager;
+    FolderManager _folderManager;
 
     enum ItemModelRole { SOURCE, NAME, TYPE };
 
 public:
     ZipItemModel(QSharedPointer<Zip::Archive> archive, QObject* parent=nullptr);
 
-    inline const int count() const { return _currentFolder->count(); }
-    inline const int imageCount() const { return _currentFolder->filesCount(); }
-    inline const int folderCount() const { return _currentFolder->childrenCount(); }
-    inline const int currentImageIndex() const { return _currentImageIndex; }
+    inline const int count() const { return _folderManager.count(); }
+    inline const int imageCount() const { return _folderManager.filesCount(); }
+    inline const int folderCount() const { return _folderManager.foldersCount(); }
+    inline const int currentImageIndex() const { return _folderManager.currentFileIndex(); }
     void setCurrentImageIndex(int index);
     void setCurrentImageIndexRaw(int index);
 
 
-    inline const QString& currentFile() const { return _currentFile; }
-    inline const QString currentFileFullPath() const { return makeSource(currentFile()); }
+    inline const QString& currentFile() const { return _folderManager.currentFile(); }
+    inline const QString currentFileFullPath() const { return _folderManager.currentFileFullPath(); }
     void setCurrentFile(const QString& file);
-    inline const QString& currentFolderName() const { return _currentFolder->getName(); }
+    inline const QString& currentFolderName() const { return _folderManager.currentFolderName(); }
     void setCurrentFolderName(const QString& name);
     const QString& parentFolderName() const;
 
-    inline QSharedPointer<ZipItem> getCurrentFolder() const { return _currentFolder; }
-    inline QSharedPointer<ZipItem> getRoot() const { return _root; }
-
-    inline int toFileIndex(int index) const { return toFileIndex(_currentFolder, index); }
-    static inline int toFileIndex(QSharedPointer<ZipItem> folder, int index) { return index - folder->childrenCount(); }
+    inline QSharedPointer<ZipItem> getCurrentFolder() const { return _folderManager.currentFolder(); }
+    inline QSharedPointer<ZipItem> getRoot() const { return _folderManager.root(); }
 
     // Super implementation
     inline int rowCount(const QModelIndex &parent) const override { return count(); }
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
-
-    const QString makeSource(const QString& name) const;
-    static const QString makeSource(QSharedPointer<ZipItem> folder, const QString& name);
-
-private:
-    void resetFileInfo();
 
 signals:
     void currentFolderNameChanged();
@@ -84,10 +69,6 @@ signals:
 public slots:
     void reloadFolderStructure();
     void refresh();
-    void decrementCurrentImageIndex();
-    void incrementCurrentImageIndex();
-    void goToNextImage();
-    void goToPreviousImage();
 };
 
 #endif // ZIPITEMMODEL_H
