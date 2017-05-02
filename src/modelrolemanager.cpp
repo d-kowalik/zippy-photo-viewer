@@ -1,5 +1,7 @@
 #include "modelrolemanager.hpp"
 
+#include "foldermanager.hpp"
+
 ModelRoleManager::ModelRoleManager()
 {
     _roleNames = QHash<ItemRole, QString>{
@@ -23,7 +25,7 @@ QVariant ModelRoleManager::data(QSharedPointer<ZipItem> folder, const QModelInde
             return QVariant(folderName);
         }
 
-        return QVariant(folder->fullPath() + folder->getFile(index - folder->childrenCount()));
+        return QVariant(FolderManager::makeSource(folder, folder->getFile(FolderManager::toFileIndex(folder, index))));
     }
     else if (role == ItemRole::TYPE)
     {
@@ -41,7 +43,7 @@ QVariant ModelRoleManager::data(QSharedPointer<ZipItem> folder, const QModelInde
             return QVariant(folderName);
         }
 
-        return QVariant(folder->getFile(index - folder->childrenCount()));
+        return QVariant(folder->getFile(FolderManager::toFileIndex(folder, index)));
     }
 
     qDebug() << "Error! No such role!";
