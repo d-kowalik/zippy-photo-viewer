@@ -38,27 +38,11 @@ ItemDelegate {
     }
 
     Rectangle {
-        id: overline
-        width: parent.width
-        height: 20
-        color: Material.primary
-        anchors.top: parent.top
-        visible: (model.name === myModel.currentFile)
-
-        Rectangle {
-            width: parent.width
-            height: 1
-            color: "black"
-            anchors.bottom: parent.top
-        }
-    }
-
-    Rectangle {
         id: underline
         width: parent.width
         height: 20
         color: Material.primary
-        anchors.bottom: parent.bottom
+        anchors.top: parent.top
         visible: (model.name === myModel.currentFile)
 
         Label {
@@ -68,36 +52,40 @@ ItemDelegate {
             color: "white"
             elide: Text.ElideRight
         }
-
-        Rectangle {
-            width: parent.width
-            height: 1
-            color: "black"
-            anchors.bottom: parent.bottom
-        }
     }
 
-    DropShadow {
-        anchors.fill: overline
-        horizontalOffset: 0
-        verticalOffset: 3
-        radius: 8.0
-        samples: 17
-        color: "#80000000"
-        source: overline
-        visible: overline.visible
-    }
-
-    DropShadow {
-        anchors.fill: underline
-        horizontalOffset: 0
-        verticalOffset: -3
-        radius: 8.0
-        samples: 17
-        color: "#80000000"
-        source: underline
+    Rectangle {
+        color: underline.color
+        width: parent.width
+        height: 1
+        anchors.bottom: parent.bottom
         visible: underline.visible
     }
+
+    Rectangle {
+        color: underline.color
+        width: parent.width
+        height: 1
+        anchors.bottom: parent.bottom
+        visible: underline.visible
+    }
+
+    Rectangle {
+        color: underline.color
+        width: 1
+        height: parent.height
+        anchors.left: parent.left
+        visible: underline.visible
+    }
+
+    Rectangle {
+        color: underline.color
+        width: 1
+        height: parent.height
+        anchors.right: parent.right
+        visible: underline.visible
+    }
+
 
     onClicked: {
         myModel.currentImageIndex = index
