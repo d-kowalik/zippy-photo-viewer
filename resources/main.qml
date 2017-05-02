@@ -81,11 +81,14 @@ ApplicationWindow {
                 anchors.left: window.left
 
                 contentItem: Image {
-                    source: "images/hamburger.png"
+                    source: stackView.depth > 1 ? "images/back_arrow.png" : "images/hamburger.png"
                 }
 
                 onClicked: {
-                    drawer.open()
+                    if (stackView.depth > 1)
+                        stackView.pop()
+                    else
+                        drawer.open()
                 }
             }
 
