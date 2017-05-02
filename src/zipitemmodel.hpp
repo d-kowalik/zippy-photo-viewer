@@ -30,8 +30,6 @@ private:
     ModelRoleManager _roleManager;
     FolderManager _folderManager;
 
-    enum ItemModelRole { SOURCE, NAME, TYPE };
-
 public:
     ZipItemModel(QSharedPointer<Zip::Archive> archive, QObject* parent=nullptr);
 
