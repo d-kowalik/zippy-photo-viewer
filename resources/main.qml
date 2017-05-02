@@ -43,6 +43,7 @@ ApplicationWindow {
     }
 
     header: ToolBar {
+        id: toolbar
 
         MouseArea {
             anchors.fill: parent;
@@ -93,8 +94,9 @@ ApplicationWindow {
             }
 
             Label {
-                id: titleLabel
-                text: "Photo viewer"
+                id: toolbarTitle
+                text: "Zippy"
+
                 font.pixelSize: 20
                 elide: Label.ElideRight
                 horizontalAlignment: Qt.AlignHCenter
@@ -192,6 +194,7 @@ ApplicationWindow {
 
                         onClicked: {
                             drawer.close()
+                            toolbarTitle.text = "Settings"
                             mainStackView.push("qrc:/SettingsView.qml")
                         }
                     }
@@ -220,6 +223,9 @@ ApplicationWindow {
 //                window.header = null
 //                mainImage.focus = true
 //            }
+            if (depth == 1) {
+                toolbarTitle.text = "Zippy"
+            }
         }
 
         initialItem: Rectangle {
