@@ -2,7 +2,7 @@
 
 FolderManager::FolderManager()
 {
-
+    reloadFolderStructure();
 }
 
 void FolderManager::setCurrentFileIndex(int index)
