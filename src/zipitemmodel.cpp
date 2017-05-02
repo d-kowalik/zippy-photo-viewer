@@ -58,5 +58,8 @@ void ZipItemModel::refresh()
     this->beginResetModel();
     this->resetInternalData();
     _folderManager.resetFileInfo();
+    emit currentFileChanged();
+    emit currentFileFullPathChanged();
+    emit imageCountChanged();
     this->endResetModel();
 }
