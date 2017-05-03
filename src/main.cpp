@@ -10,12 +10,34 @@
 #include <QAbstractItemModel>
 #include <QHash>
 #include <QObject>
+#include <QQuickWindow>
+#include <QAbstractNativeEventFilter>
 
 #include <quazipfile.h>
 
 #include "zip/archive.hpp"
 #include "zipimageprovider.hpp"
 #include "zipitemmodel.hpp"
+
+class EventFilter : public QAbstractNativeEventFilter
+{
+public:
+    bool nativeEventFilter(const QByteArray &eventType, void *message, long* result) override
+    {
+        if (eventType == "windows_generic_MSG")
+        {
+            MSG* msg = reinterpret_cast<MSG*>(message);
+            switch (msg->message)
+            {
+            case WM_NCCALCSIZE:
+                *result = 0;
+                return true;
+            }
+        }
+
+        return false;
+    }
+};
 
 
 int main(int argc, char *argv[])
@@ -35,11 +57,17 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
+    EventFilter eventFilter;
+    app.installNativeEventFilter(&eventFilter);
 
     engine.rootContext()->setContextProperty("archive", archive.data());
     engine.rootContext()->setContextProperty("myModel", &model);
     engine.addImageProvider(QLatin1String("zipimageprovider"), &provider);
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
+
+    QQuickWindow* window;
+    window = qobject_cast<QQuickWindow*>(engine.rootObjects().value(0));
+    window->show();
 
 
 
