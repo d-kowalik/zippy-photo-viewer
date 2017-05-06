@@ -19,27 +19,6 @@
 #include "zipimageprovider.hpp"
 #include "zipitemmodel.hpp"
 
-class EventFilter : public QAbstractNativeEventFilter
-{
-public:
-    bool nativeEventFilter(const QByteArray &eventType, void *message, long* result) override
-    {
-        if (eventType == "windows_generic_MSG")
-        {
-            MSG* msg = reinterpret_cast<MSG*>(message);
-            switch (msg->message)
-            {
-            case WM_NCCALCSIZE:
-                *result = 0;
-                return true;
-            }
-        }
-
-        return false;
-    }
-};
-
-
 int main(int argc, char *argv[])
 {
     QString zipFile = "";
