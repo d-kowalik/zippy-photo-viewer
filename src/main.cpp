@@ -19,6 +19,8 @@
 #include "zipimageprovider.hpp"
 #include "zipitemmodel.hpp"
 
+#include "borderless-window/MainWindow.h"
+
 int main(int argc, char *argv[])
 {
     QString zipFile = "";
@@ -27,28 +29,21 @@ int main(int argc, char *argv[])
         zipFile = argv[1];
     }
 
-//    QString zipFile = "C:/Users/d10dd/Desktop/Test1.zip";
-    auto archive = QSharedPointer<Zip::Archive>::create(zipFile);
-    ZipImageProvider provider(archive);
-    ZipItemModel model(archive);
-
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication app(argc, argv);
-    QQmlApplicationEngine engine;
-
-    engine.rootContext()->setContextProperty("archive", archive.data());
-    engine.rootContext()->setContextProperty("myModel", &model);
-    engine.addImageProvider(QLatin1String("zipimageprovider"), &provider);
-    engine.load(QUrl(QLatin1String("qrc:/main.qml")));
-
-    QQuickWindow* window;
-    window = qobject_cast<QQuickWindow*>(engine.rootObjects().value(0));
-    window->show();
 
 
+    QGuiApplication application(argc, argv);
+    // Background color
+    // This is only for WinApi window, Qt widgets use BorderlessWindow.css stylesheet
+    HBRUSH windowBackground = CreateSolidBrush( RGB( 63, 81, 181 ) );
 
-    return app.exec();
+    // Create window
+    BorderlessWindow window( &application, windowBackground, 100, 100, 1024, 768 );
+    window.setMinimumSize( 800, 600 );
+
+    // Launch
+    application.exec();
 }
 
 // OPENING PASSWORD PROTECTED FILES

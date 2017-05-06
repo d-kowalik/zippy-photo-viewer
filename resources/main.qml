@@ -7,17 +7,15 @@ import QtQuick.Dialogs 1.2
 import QtGraphicalEffects 1.0
 import QtQuick.Window 2.0
 
-ApplicationWindow {
-    id: window
-    visible: true
-    width: 1280
-    height: 720
-    minimumHeight: 480
-    minimumWidth: 854
-    title: qsTr("Zippy")
+Rectangle {
+    id: mainContainer
+    Layout.fillWidth: parent
+    Layout.fillHeight: parent
+    anchors.fill: parent
+    color: Material.primary
 
     property alias stackView: mainStackView
-    property alias window: window
+    property alias window: mainContainer
 
     property string imageProvider: qsTr("image://zipimageprovider")
 
@@ -41,65 +39,32 @@ ApplicationWindow {
         }
     }
 
-    Rectangle {
-        color: Material.primary
-        width: parent.width
-        height: 1
-        anchors.bottom: parent.bottom
-    }
+
 
     Rectangle {
-        color: Material.primary
-        width: 1
-        height: parent.height
-        anchors.left: parent.left
-    }
-
-    Rectangle {
-        color: Material.primary
-        width: 1
-        height: parent.height
-        anchors.right: parent.right
-    }
-
-    header: ToolBar {
         id: toolbar
+        Layout.fillWidth: parent
+        width: parent.width
+        height: 30
+        anchors.top: parent.top
+        color: Material.primary
 
-//        MouseArea {
-//            anchors.fill: parent;
-//            property variant clickPos: "1,1"
-
-//            onPressed: {
-//                clickPos = Qt.point(mouse.x,mouse.y)
-//            }
-
-//            onPositionChanged: {
-//                var delta = Qt.point(mouse.x-clickPos.x, mouse.y-clickPos.y)
-//                var new_x = window.x + delta.x
-//                var new_y = window.y + delta.y
-//                if (new_y <= 0)
-//                    window.visibility = Window.Maximized
-//                else
-//                {
-//                    if (window.visibility === Window.Maximized)
-//                        window.visibility = Window.Windowed
-//                    window.x = new_x
-//                    window.y = new_y
-//                }
-//            }
-//        }
-
-        RowLayout {
-            spacing: 20
+        MouseArea {
             anchors.fill: parent
 
-            ToolButton {
-                width: 48
-                height: 48
-                z: 10
+            onPressed: mainWindow.toolbarLeftMouseEvent()
+            onDoubleClicked: mainWindow.toolbarDoubleClicked()
+        }
 
-                anchors.top: window.top
-                anchors.left: window.left
+        Row {
+            anchors.left: parent.left
+            spacing: 20
+
+            ToolButton {
+                id: drawerButton
+                width: 35
+                height: 35
+                z: 10
 
                 contentItem: Image {
                     source: stackView.depth > 1 ? "images/back_arrow.png" : "images/hamburger.png"
@@ -116,6 +81,7 @@ ApplicationWindow {
             Label {
                 id: toolbarTitle
                 text: "Zippy"
+                y: 4
 
                 font.pixelSize: 20
                 elide: Label.ElideRight
@@ -123,29 +89,112 @@ ApplicationWindow {
                 verticalAlignment: Qt.AlignVCenter
                 Layout.fillWidth: true
             }
+        }
+
+
+        Row {
+            anchors.right: parent.right
 
             ToolButton {
-                id: closeButton
+                onClicked: mainWindow.minimize()
+                width: 26
+                height: 26
 
-                contentItem: Image {
-                    source: "images/close.png"
+                contentItem: Rectangle {
+                    color: "green"
+                    radius: parent.width
                 }
+            }
 
-                onClicked: Qt.quit()
+            ToolButton {
+                onClicked:  mainWindow.maximize()
+                width: 26
+                height: 26
+
+                contentItem: Rectangle {
+                    color: "yellow"
+                    radius: parent.width
+                }
+            }
+
+            ToolButton {
+                onClicked: mainWindow.close()
+                width: 26
+                height: 26
+
+                contentItem: Rectangle {
+                    color: "red"
+                    radius: parent.width
+                }
             }
         }
     }
 
+//    Rectangle {
+//        id: toolbar
+//        Layout.fillWidth: parent
+//        height: 30
+//        color: Material.primary
+
+//        MouseArea {
+//            anchors.fill: parent
+//            onPressed: mainWindow.toolbarLeftMouseEvent()
+//            onDoubleClicked: mainWindow.toolbarDoubleClicked()
+//        }
+
+//        Row {
+//            spacing: 20
+//            anchors.fill: parent
+
+//            ToolButton {
+//                width: 30
+//                height: 30
+//                z: 10
+
+//                contentItem: Image {
+//                    source: stackView.depth > 1 ? "images/back_arrow.png" : "images/hamburger.png"
+//                }
+
+//                onClicked: {
+//                    if (stackView.depth > 1)
+//                        stackView.pop()
+//                    else
+//                        drawer.open()
+//                }
+//            }
+
+//            Label {
+//                id: toolbarTitle
+//                text: "Zippy"
+
+//                font.pixelSize: 20
+//                elide: Label.ElideRight
+//                horizontalAlignment: Qt.AlignHCenter
+//                verticalAlignment: Qt.AlignVCenter
+//                Layout.fillWidth: true
+//            }
+
+//            ToolButton {
+//                id: closeButton
+
+//                contentItem: Image {
+//                    source: "images/close.png"
+//                }
+
+//                onClicked: mainWindow.close()
+//            }
+//        }
+//    }
+
     Drawer {
         id: drawer
         width: 448
-        height: window.height
+        height: parent.height
 
         onClosed: mainStackView.focus = true
 
         GridLayout {
-            width: parent.width
-            height: parent.height
+            anchors.fill: parent
             columns: 2
             columnSpacing: 0
 
@@ -154,7 +203,7 @@ ApplicationWindow {
 
                 width: parent.width - sideMenu.width
                 height: parent.height
-                anchors.right: parent.right
+                anchors.left: sideMenu.right
                 Layout.fillHeight: parent
 
                 delegate: Component {
@@ -225,9 +274,10 @@ ApplicationWindow {
 
     StackView {
         id: mainStackView
-        width: window.width
-        height: window.height
+        width: parent.width
+        height: parent.height - toolbar.height
         focus: true
+        anchors.top: toolbar.bottom
 
         Keys.onPressed: {
             if (event.key === Qt.Key_Left) {
@@ -251,6 +301,7 @@ ApplicationWindow {
         initialItem: Rectangle {
             anchors.fill: parent
             color: "transparent"
+
             Image {
                 id: mainImage
 
