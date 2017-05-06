@@ -193,17 +193,15 @@ Rectangle {
 
         onClosed: mainStackView.focus = true
 
-        GridLayout {
+        Rectangle {
             anchors.fill: parent
-            columns: 2
-            columnSpacing: 0
 
             ListView {
                 id: drawerListView
 
                 width: parent.width - sideMenu.width
                 height: parent.height
-                anchors.left: sideMenu.right
+                anchors.right: parent.right
                 Layout.fillHeight: parent
 
                 delegate: Component {
