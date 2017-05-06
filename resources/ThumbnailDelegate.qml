@@ -40,43 +40,31 @@ ItemDelegate {
     Rectangle {
         id: underline
         width: parent.width
-        height: 20
+        height: 30
         color: Material.primary
-        anchors.bottom: parent.bottom
+        anchors.verticalCenter: parent.verticalCenter
         visible: (model.name === myModel.currentFile)
 
-        Label {
-            width: parent.width
-            height: parent.height
+        Text {
+            anchors.fill: parent
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 20
             text: model.name
             color: "white"
             elide: Text.ElideRight
         }
     }
 
-    Rectangle {
-        color: underline.color
-        width: parent.width
-        height: 1
-        anchors.top: parent.top
+    DropShadow {
+        source: underline
+        anchors.fill: underline
         visible: underline.visible
+        radius: 8
+        samples: 17
+        color: "#80000000"
     }
 
-    Rectangle {
-        color: underline.color
-        width: 1
-        height: parent.height
-        anchors.left: parent.left
-        visible: underline.visible
-    }
-
-    Rectangle {
-        color: underline.color
-        width: 1
-        height: parent.height
-        anchors.right: parent.right
-        visible: underline.visible
-    }
 
 
     onClicked: {
