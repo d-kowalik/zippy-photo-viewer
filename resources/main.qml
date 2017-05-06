@@ -195,6 +195,7 @@ Rectangle {
 
         Rectangle {
             anchors.fill: parent
+            color: Material.background
 
             ListView {
                 id: drawerListView
