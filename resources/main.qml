@@ -101,7 +101,7 @@ Rectangle {
                 height: 26
 
                 contentItem: Rectangle {
-                    color: "green"
+                    color: "#4CAF50"
                     radius: parent.width
                 }
             }
@@ -112,7 +112,7 @@ Rectangle {
                 height: 26
 
                 contentItem: Rectangle {
-                    color: "yellow"
+                    color: "#FFC107"
                     radius: parent.width
                 }
             }
@@ -123,7 +123,7 @@ Rectangle {
                 height: 26
 
                 contentItem: Rectangle {
-                    color: "red"
+                    color: "#F44336"
                     radius: parent.width
                 }
             }
