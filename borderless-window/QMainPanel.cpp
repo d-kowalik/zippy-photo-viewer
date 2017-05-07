@@ -4,6 +4,7 @@
 #include <QQmlContext>
 #include <QQuickItem>
 #include <QQmlContext>
+#include <QGuiApplication>
 
 #include "QMainPanel.h"
 
@@ -19,8 +20,10 @@ QMainPanel::QMainPanel( HWND hWnd ) {
     windowHandle = hWnd;
     setResizeMode(ResizeMode::SizeViewToRootObject);
 
-
-    QString zipFile = "C:/Users/d10dd/Desktop/Test3.zip";
+    QString zipFile = "";
+    if (QGuiApplication::arguments().length() > 1) {
+        zipFile = QGuiApplication::arguments()[1];
+    }
     auto archive = QSharedPointer<Zip::Archive>::create(zipFile);
     ZipImageProvider* provider = new ZipImageProvider(archive);
     ZipItemModel* model = new ZipItemModel(archive);
