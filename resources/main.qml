@@ -81,7 +81,7 @@ Rectangle {
             Label {
                 id: toolbarTitle
                 text: "Zippy"
-                y: 4
+                y: 3
 
                 font.pixelSize: 20
                 elide: Label.ElideRight
