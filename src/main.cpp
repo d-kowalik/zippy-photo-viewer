@@ -35,7 +35,6 @@ int main(int argc, char *argv[])
 
     QGuiApplication application(argc, argv);
     // Background color
-    // This is only for WinApi window, Qt widgets use BorderlessWindow.css stylesheet
     HBRUSH windowBackground = CreateSolidBrush( RGB( 63, 81, 181 ) );
 
     // Create window
