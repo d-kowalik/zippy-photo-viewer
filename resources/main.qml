@@ -5,18 +5,17 @@ import QtQuick.Controls.Material 2.1
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Dialogs 1.2
 import QtGraphicalEffects 1.0
+import QtQuick.Window 2.0
 
-ApplicationWindow {
-    id: window
-    visible: true
-    width: 1280
-    height: 720
-    minimumHeight: 480
-    minimumWidth: 854
-    title: qsTr("Hello World")
+Rectangle {
+    id: mainContainer
+    Layout.fillWidth: parent
+    Layout.fillHeight: parent
+    anchors.fill: parent
+    color: Material.primary
 
     property alias stackView: mainStackView
-    property alias window: window
+    property alias window: mainContainer
 
     property string imageProvider: qsTr("image://zipimageprovider")
 
@@ -41,38 +40,162 @@ ApplicationWindow {
     }
 
 
-    ToolButton {
-        width: 48
-        height: 48
-        z: 10
-        opacity: .53
 
-        anchors.top: window.top
-        anchors.left: window.left
+    Rectangle {
+        id: toolbar
+        Layout.fillWidth: parent
+        width: parent.width
+        height: 30
+        anchors.top: parent.top
+        color: Material.primary
 
-        visible: mainImage.visible
+        MouseArea {
+            anchors.fill: parent
 
-        contentItem: Image {
-            source: "images/hamburger.png"
+            onPressed: mainWindow.toolbarLeftMouseEvent()
+            onDoubleClicked: mainWindow.toolbarDoubleClicked()
         }
 
-        onClicked: {
-            drawer.open()
+        Row {
+            anchors.left: parent.left
+            spacing: 20
+
+            ToolButton {
+                id: drawerButton
+                width: 35
+                height: 35
+                z: 10
+
+                contentItem: Image {
+                    source: stackView.depth > 1 ? "images/back_arrow.png" : "images/hamburger.png"
+                }
+
+                onClicked: {
+                    if (stackView.depth > 1)
+                        stackView.pop()
+                    else
+                        drawer.open()
+                }
+            }
+
+            Label {
+                id: toolbarTitle
+                text: "Zippy"
+                y: 3
+
+                font.pixelSize: 20
+                elide: Label.ElideRight
+                horizontalAlignment: Qt.AlignHCenter
+                verticalAlignment: Qt.AlignVCenter
+                Layout.fillWidth: true
+            }
+        }
+
+
+        Row {
+            anchors.right: parent.right
+
+            ToolButton {
+                onClicked: mainWindow.minimize()
+                width: 26
+                height: 26
+
+                contentItem: Rectangle {
+                    color: "#4CAF50"
+                    radius: parent.width
+                }
+            }
+
+            ToolButton {
+                onClicked:  mainWindow.maximize()
+                width: 26
+                height: 26
+
+                contentItem: Rectangle {
+                    color: "#FFC107"
+                    radius: parent.width
+                }
+            }
+
+            ToolButton {
+                onClicked: mainWindow.close()
+                width: 26
+                height: 26
+
+                contentItem: Rectangle {
+                    color: "#F44336"
+                    radius: parent.width
+                }
+            }
         }
     }
+
+//    Rectangle {
+//        id: toolbar
+//        Layout.fillWidth: parent
+//        height: 30
+//        color: Material.primary
+
+//        MouseArea {
+//            anchors.fill: parent
+//            onPressed: mainWindow.toolbarLeftMouseEvent()
+//            onDoubleClicked: mainWindow.toolbarDoubleClicked()
+//        }
+
+//        Row {
+//            spacing: 20
+//            anchors.fill: parent
+
+//            ToolButton {
+//                width: 30
+//                height: 30
+//                z: 10
+
+//                contentItem: Image {
+//                    source: stackView.depth > 1 ? "images/back_arrow.png" : "images/hamburger.png"
+//                }
+
+//                onClicked: {
+//                    if (stackView.depth > 1)
+//                        stackView.pop()
+//                    else
+//                        drawer.open()
+//                }
+//            }
+
+//            Label {
+//                id: toolbarTitle
+//                text: "Zippy"
+
+//                font.pixelSize: 20
+//                elide: Label.ElideRight
+//                horizontalAlignment: Qt.AlignHCenter
+//                verticalAlignment: Qt.AlignVCenter
+//                Layout.fillWidth: true
+//            }
+
+//            ToolButton {
+//                id: closeButton
+
+//                contentItem: Image {
+//                    source: "images/close.png"
+//                }
+
+//                onClicked: mainWindow.close()
+//            }
+//        }
+//    }
 
     Drawer {
         id: drawer
         width: 448
-        height: window.height
+        height: parent.height
 
         onClosed: mainStackView.focus = true
 
-        GridLayout {
-            width: parent.width
-            height: parent.height
-            columns: 2
-            columnSpacing: 0
+        Rectangle {
+            anchors.fill: parent
+            color: Material.background
 
             ListView {
                 id: drawerListView
@@ -139,6 +262,7 @@ ApplicationWindow {
 
                         onClicked: {
                             drawer.close()
+                            toolbarTitle.text = "Settings"
                             mainStackView.push("qrc:/SettingsView.qml")
                         }
                     }
@@ -149,9 +273,10 @@ ApplicationWindow {
 
     StackView {
         id: mainStackView
-        width: window.width
-        height: window.height
+        width: parent.width
+        height: parent.height - toolbar.height
         focus: true
+        anchors.top: toolbar.bottom
 
         Keys.onPressed: {
             if (event.key === Qt.Key_Left) {
@@ -163,15 +288,19 @@ ApplicationWindow {
         }
 
         onDepthChanged: {
+//            if (depth == 1) {
+//                window.header = null
+//                mainImage.focus = true
+//            }
             if (depth == 1) {
-                window.header = null
-                mainImage.focus = true
+                toolbarTitle.text = "Zippy"
             }
         }
 
         initialItem: Rectangle {
             anchors.fill: parent
             color: "transparent"
+
             Image {
                 id: mainImage
 

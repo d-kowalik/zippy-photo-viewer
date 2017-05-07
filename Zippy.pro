@@ -8,12 +8,16 @@ SOURCES += src/main.cpp \
     src/zipitemmodel.cpp \
     src/zip/archive.cpp \
     src/modelrolemanager.cpp \
-    src/foldermanager.cpp
+    src/foldermanager.cpp \
+    borderless-window/MainWindow.cpp \
+    borderless-window/QMainPanel.cpp
 
 RESOURCES += resources/qml.qrc
 
 LIBS += -L"$$_PRO_FILE_PWD_/libs/quazip/lib" -lquazip
 INCLUDEPATH += "$$_PRO_FILE_PWD_/libs/quazip/include"
+
+win32: LIBS += -lGdi32 -ldwmapi
 
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
@@ -44,7 +48,9 @@ HEADERS += \
     src/zipitemmodel.hpp \
     src/zip/archive.hpp \
     src/modelrolemanager.hpp \
-    src/foldermanager.hpp
+    src/foldermanager.hpp \
+    borderless-window/MainWindow.h \
+    borderless-window/QMainPanel.h
 
 DISTFILES += \
     resources/FolderDelegate.qml \

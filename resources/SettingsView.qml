@@ -8,10 +8,6 @@ import QtQuick.Dialogs 1.2
 Item {
     anchors.fill: parent
 
-    Component.onCompleted: {
-        window.header = toolbar
-    }
-
     MessageDialog {
         id: fileErrorDialog
 
@@ -74,34 +70,6 @@ Item {
             passwordError.open()
         }
     }
-
-    ToolBar {
-        id: toolbar
-        Layout.fillWidth: parent
-
-        RowLayout {
-            ToolButton {
-                height: 48
-                width: 48
-                onClicked: mainStackView.pop()
-
-                contentItem: Image {
-                    source: "images/back_arrow.png"
-                }
-            }
-
-            Label {
-                text: qsTr("Settings")
-                id: titleLabel
-                font.pixelSize: 20
-                elide: Label.ElideRight
-                horizontalAlignment: Qt.AlignHCenter
-                verticalAlignment: Qt.AlignVCenter
-                Layout.fillWidth: true
-            }
-        }
-    }
-
 
     Column {
         padding: 5
