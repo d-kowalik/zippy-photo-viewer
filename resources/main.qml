@@ -48,6 +48,7 @@ Rectangle {
         height: 30
         anchors.top: parent.top
         color: Material.primary
+        z: 10
 
         MouseArea {
             anchors.fill: parent
