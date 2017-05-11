@@ -210,9 +210,9 @@ Rectangle {
     StackView {
         id: mainStackView
         width: parent.width
-        height: (parent.height)
+        anchors.fill: mainStackView.depth === 1 ? parent : null
         focus: true
-        anchors.top: mainWindow.bottom
+        anchors.top: (mainStackView.depth === 1) ? (mainWindow.bottom) : (toolbar.bottom)
 
         Keys.onPressed: {
             if (event.key === Qt.Key_Left) {
