@@ -28,18 +28,8 @@ Rectangle {
         onPathChanged: {
             myModel.reloadFolderStructure()
             myModel.refresh()
-//            mainImage.source = toSource(myModel.currentFileFullPath)
         }
     }
-
-    Connections {
-        target: myModel
-        onCurrentFileChanged: {
-//            mainImage.source = toSource(myModel.currentFileFullPath)
-        }
-    }
-
-
 
     Rectangle {
         id: toolbar
@@ -130,62 +120,6 @@ Rectangle {
             }
         }
     }
-
-//    Rectangle {
-//        id: toolbar
-//        Layout.fillWidth: parent
-//        height: 30
-//        color: Material.primary
-
-//        MouseArea {
-//            anchors.fill: parent
-//            onPressed: mainWindow.toolbarLeftMouseEvent()
-//            onDoubleClicked: mainWindow.toolbarDoubleClicked()
-//        }
-
-//        Row {
-//            spacing: 20
-//            anchors.fill: parent
-
-//            ToolButton {
-//                width: 30
-//                height: 30
-//                z: 10
-
-//                contentItem: Image {
-//                    source: stackView.depth > 1 ? "images/back_arrow.png" : "images/hamburger.png"
-//                }
-
-//                onClicked: {
-//                    if (stackView.depth > 1)
-//                        stackView.pop()
-//                    else
-//                        drawer.open()
-//                }
-//            }
-
-//            Label {
-//                id: toolbarTitle
-//                text: "Zippy"
-
-//                font.pixelSize: 20
-//                elide: Label.ElideRight
-//                horizontalAlignment: Qt.AlignHCenter
-//                verticalAlignment: Qt.AlignVCenter
-//                Layout.fillWidth: true
-//            }
-
-//            ToolButton {
-//                id: closeButton
-
-//                contentItem: Image {
-//                    source: "images/close.png"
-//                }
-
-//                onClicked: mainWindow.close()
-//            }
-//        }
-//    }
 
     Drawer {
         id: drawer
@@ -289,10 +223,6 @@ Rectangle {
         }
 
         onDepthChanged: {
-//            if (depth == 1) {
-//                window.header = null
-//                mainImage.focus = true
-//            }
             if (depth == 1) {
                 toolbarTitle.text = "Zippy"
             }

@@ -23,13 +23,6 @@
 
 int main(int argc, char *argv[])
 {
-    QString zipFile = "";
-    if (argc > 1)
-    {
-        zipFile = argv[1];
-    }
-
-
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
 
@@ -44,25 +37,3 @@ int main(int argc, char *argv[])
     // Launch
     application.exec();
 }
-
-// OPENING PASSWORD PROTECTED FILES
-//    QuaZip zip("C:/Users/d10dd/Desktop/Test3.zip");
-//    bool res = zip.open(QuaZip::mdUnzip);
-//    qDebug() << res;
-//    zip.goToFirstFile();
-
-//    QuaZipFile file(&zip);
-//    QuaZipFileInfo info{};
-//    file.getFileInfo(&info);
-//    qDebug() << info.flags;
-//    bool res2 = file.open(QIODevice::ReadOnly, "password");
-//    qDebug() << res2;
-//    auto data = file.readAll();
-//    qDebug() << data.size();
-//    file.close();
-//    zip.close();
-
-//    QFile file2("C:/Users/d10dd/Desktop/result.jpg");
-//    file2.open(QIODevice::WriteOnly);
-//    file2.write(data);
-//    file2.close();
