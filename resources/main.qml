@@ -325,10 +325,15 @@ Rectangle {
                     drag.target: parent
 
                     function checkBounds() {
-                        drag.maximumX = (mainImage.width * mainImage.scale - mainImage.width) / 2
-                        drag.maximumY = (mainImage.height * mainImage.scale - mainImage.height) / 2
-                        drag.minimumX = -(mainImage.width * mainImage.scale - mainImage.width) / 2
-                        drag.minimumY = -(mainImage.height * mainImage.scale - mainImage.height) / 2
+                        var maximumX = (mainImage.paintedWidth * mainImage.scale - mainImage.width) / 2
+                        var maximumY = (mainImage.paintedHeight * mainImage.scale - mainImage.height) / 2
+                        var minimumX = -(mainImage.paintedWidth * mainImage.scale - mainImage.width) / 2
+                        var minimumY = -(mainImage.paintedHeight * mainImage.scale - mainImage.height) / 2
+
+                        drag.maximumX = maximumX < 0 ? 0 : maximumX
+                        drag.maximumY = maximumY < 0 ? 0 : maximumY
+                        drag.minimumX = minimumX > 0 ? 0 : minimumX
+                        drag.minimumY = minimumY > 0 ? 0 : minimumY
 
                         if (mainImage.x > drag.maximumX) {
                             mainImage.x = drag.maximumX
