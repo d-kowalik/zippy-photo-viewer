@@ -18,6 +18,8 @@ Archive::Archive(QString path)
 QImage Archive::getImage(const QString& id)
 {
     if (id == "") return QImage();
+    if (id == _currentImageId) return _currentImageCache;
+
     _zip->setCurrentFile(id);
 
     QuaZipFile file(&*_zip);
@@ -41,6 +43,9 @@ QImage Archive::getImage(const QString& id)
     file.getFileInfo(&info);
     qDebug() << "Flags: " << info.flags;
     QImage image = QImage::fromData(bytes);
+
+    _currentImageCache = image;
+    _currentImageId = id;
 
     return image;
 }

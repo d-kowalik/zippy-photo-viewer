@@ -2,6 +2,7 @@
 #define ARCHIVE_HPP
 
 #include <QObject>
+#include <QImage>
 
 #include <memory>
 
@@ -24,6 +25,8 @@ private:
     QStringList _supportedFiles;
     bool _passwordRequired = false;
     QString _password;
+    QString _currentImageId = "";
+    QImage _currentImageCache;
 public:
     Archive(QString path);
 
