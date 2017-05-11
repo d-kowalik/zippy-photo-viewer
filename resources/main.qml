@@ -324,6 +324,11 @@ Rectangle {
                     anchors.fill: parent
                     drag.target: parent
 
+                    drag.maximumX: 0
+                    drag.maximumY: 0
+                    drag.minimumX: 0
+                    drag.minimumY: 0
+
                     function checkBounds() {
                         var maximumX = (mainImage.paintedWidth * mainImage.scale - mainImage.width) / 2
                         var maximumY = (mainImage.paintedHeight * mainImage.scale - mainImage.height) / 2
