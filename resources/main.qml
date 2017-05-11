@@ -37,7 +37,7 @@ Rectangle {
         width: parent.width
         height: 30
         anchors.top: parent.top
-        color: Material.primary
+        color: "transparent"
         z: 10
 
         MouseArea {
@@ -85,6 +85,7 @@ Rectangle {
 
         Row {
             anchors.right: parent.right
+            z: 10
 
             ToolButton {
                 onClicked: mainWindow.minimize()
@@ -209,9 +210,9 @@ Rectangle {
     StackView {
         id: mainStackView
         width: parent.width
-        height: parent.height - toolbar.height
+        height: (parent.height)
         focus: true
-        anchors.top: toolbar.bottom
+        anchors.top: mainWindow.bottom
 
         Keys.onPressed: {
             if (event.key === Qt.Key_Left) {
