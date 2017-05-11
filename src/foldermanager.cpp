@@ -81,35 +81,41 @@ void FolderManager::resetFileInfo()
         setCurrentFile("");
 }
 
-void FolderManager::decrementCurrentFileIndex()
+bool FolderManager::decrementCurrentFileIndex()
 {
+    if (filesCount() == 0) return false;
     auto newIndex = currentFileIndex();
     if (newIndex == 0)
         newIndex = filesCount() - 1;
     else
         newIndex--;
     setCurrentFileIndexRaw(newIndex);
+    return true;
 }
 
-void FolderManager::incrementCurrentFileIndex()
+bool FolderManager::incrementCurrentFileIndex()
 {
+    if (filesCount() == 0) return false;
     auto newIndex = currentFileIndex();
     if (newIndex == filesCount() - 1)
         newIndex = 0;
     else
         newIndex++;
     setCurrentFileIndexRaw(newIndex);
+    return true;
 }
 
-void FolderManager::goToNextFile()
+bool FolderManager::goToNextFile()
 {
-    incrementCurrentFileIndex();
+    if (!incrementCurrentFileIndex()) return false;
     setCurrentFile(currentFolder()->getFile(currentFileIndex()));
+    return true;
 }
 
-void FolderManager::goToPreviousFile()
+bool FolderManager::goToPreviousFile()
 {
-    decrementCurrentFileIndex();
+    if (!decrementCurrentFileIndex()) return false;
     setCurrentFile(currentFolder()->getFile(currentFileIndex()));
+    return true;
 }
 

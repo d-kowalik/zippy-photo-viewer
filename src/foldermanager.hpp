@@ -43,10 +43,10 @@ public:
     void reloadFolderStructure();
     void resetFileInfo();
 
-    void decrementCurrentFileIndex();
-    void incrementCurrentFileIndex();
-    void goToNextFile();
-    void goToPreviousFile();
+    bool decrementCurrentFileIndex();
+    bool incrementCurrentFileIndex();
+    bool goToNextFile();
+    bool goToPreviousFile();
 };
 
 #endif // FOLDERMANAGER_HPP
