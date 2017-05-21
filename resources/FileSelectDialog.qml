@@ -39,6 +39,7 @@ Popup {
             TextField {
                 id: zipFilePath
                 Layout.fillWidth: true
+                text: archive.path
                 focus: true
                 placeholderText: "path"
                 font.pixelSize: 20
@@ -72,25 +73,26 @@ Popup {
         }
     }
 
-    MessageDialog {
+    Popup {
         id: fileErrorDialog
 
-        title: "Error"
-        text:  "Failed to open the file"
+        x: (mainWindow.width - width) / 2
+        y: (mainWindow.height - height) / 2
+
+        parent: ApplicationWindow.overlay
+
+        contentItem: Label {
+            text: "Failed to open the file"
+        }
     }
 
-    MessageDialog {
-        id: passwordError
-
-        title: "Error"
-        text:  "Password not correct"
-    }
-
-    Dialog {
+    Popup {
         id: passwordDialog
 
-        title: "Password"
-        standardButtons: Dialog.Ok | Dialog.Cancel
+        x: (mainWindow.width - width) / 2
+        y: (mainWindow.height - height) / 2
+
+        parent: ApplicationWindow.overlay
 
         ColumnLayout {
             spacing: 20
@@ -107,12 +109,28 @@ Popup {
                 echoMode: TextField.Password
                 Layout.fillWidth: true
             }
+
+            Label {
+                id: passwordErrorText
+                elide: Label.ElideRight
+                color: Material.color("red")
+                text: "Incorrect password"
+                visible: false
+            }
+
+            RowLayout {
+                ToolButton {
+                    text: "Apply"
+                    onClicked: {
+                        archive.password = passwordField.text
+                    }
+                }
+            }
         }
 
-        onButtonClicked: {
-            if (clickedButton === Dialog.Ok) {
-                archive.password = passwordField.text
-            }
+        onClosed: {
+            passwordErrorText.visible = false
+            passwordField.text = ""
         }
     }
 
@@ -128,10 +146,11 @@ Popup {
 
         onPasswordCorrect: {
             archive.path = zipFilePath.text
+            passwordDialog.close()
         }
 
         onPasswordIncorrect: {
-            passwordError.open()
+            passwordErrorText.visible = true
         }
     }
 }
