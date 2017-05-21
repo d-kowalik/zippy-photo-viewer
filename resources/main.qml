@@ -188,6 +188,55 @@ Rectangle {
                         }
                     }
 
+                    Popup {
+                        id: fileSelectDialog
+
+                        width: mainWindow.width / 2
+
+                        x: (mainWindow.width - width) / 2
+                        y: (mainWindow.height - height) / 2
+
+                        focus: true
+                        modal: true
+
+                        parent: ApplicationWindow.overlay
+
+                        ColumnLayout {
+                            spacing: 20
+                            anchors.fill: parent
+                            width: parent.width
+                            Layout.fillWidth: true
+
+                            Label {
+                                elide: Label.ElideRight
+                                text: "Zip file path:"
+                                Layout.fillWidth: true
+                                font.pixelSize: 25
+                            }
+                            RowLayout {
+                                Layout.fillWidth: true
+                                spacing: 5
+
+                                TextField {
+                                    Layout.fillWidth: true
+                                    focus: true
+                                    placeholderText: "path"
+                                    font.pixelSize: 20
+                                }
+                                Button {
+                                    id: fileBrowseButton
+                                    text: "..."
+                                    highlighted: true
+                                }
+                            }
+
+                            ToolButton {
+                                anchors.horizontalCenter: Qt.AlignRight
+                                text: "Ok"
+                            }
+                        }
+                    }
+
                     ToolButton {
                         id: fileSelectButton
                         width: parent.width
@@ -195,6 +244,10 @@ Rectangle {
 
                         contentItem: Image {
                             source: "images/settings.png" // just a placeholder
+                        }
+
+                        onClicked: {
+                            fileSelectDialog.open()
                         }
                     }
 
