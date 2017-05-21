@@ -12,5 +12,6 @@
         <file>images/close.png</file>
         <file>FileSelectDialog.qml</file>
         <file>images/browse_files.png</file>
+        <file>ScalableImage.qml</file>
     </qresource>
 </RCC>
