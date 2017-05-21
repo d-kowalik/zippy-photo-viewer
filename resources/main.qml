@@ -189,6 +189,16 @@ Rectangle {
                     }
 
                     ToolButton {
+                        id: fileSelectButton
+                        width: parent.width
+                        height: width
+
+                        contentItem: Image {
+                            source: "images/settings.png" // just a placeholder
+                        }
+                    }
+
+                    ToolButton {
                         width: parent.width
                         height: parent.width
 
