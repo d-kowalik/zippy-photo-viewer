@@ -37,6 +37,7 @@ Popup {
             spacing: 5
 
             TextField {
+                id: zipFilePath
                 Layout.fillWidth: true
                 focus: true
                 placeholderText: "path"
@@ -46,12 +47,24 @@ Popup {
                 id: fileBrowseButton
                 text: "..."
                 highlighted: true
+                onClicked: {
+                    zipFilePathDialog.open()
+                }
             }
         }
 
         ToolButton {
             anchors.horizontalCenter: Qt.AlignRight
             text: "Ok"
+        }
+    }
+
+    FileDialog {
+        id: zipFilePathDialog
+        nameFilters: [ "Zip files (*.zip)" ]
+
+        onSelectionAccepted: {
+            zipFilePath.text = fileUrl.toString().split("///")[1] // It gets rid of file:///, gotta replace this line with something better
         }
     }
 }
