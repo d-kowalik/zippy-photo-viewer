@@ -71,4 +71,67 @@ Popup {
             zipFilePath.text = fileUrl.toString().split("///")[1] // It gets rid of file:///, gotta replace this line with something better
         }
     }
+
+    MessageDialog {
+        id: fileErrorDialog
+
+        title: "Error"
+        text:  "Failed to open the file"
+    }
+
+    MessageDialog {
+        id: passwordError
+
+        title: "Error"
+        text:  "Password not correct"
+    }
+
+    Dialog {
+        id: passwordDialog
+
+        title: "Password"
+        standardButtons: Dialog.Ok | Dialog.Cancel
+
+        ColumnLayout {
+            spacing: 20
+            anchors.fill: parent
+            Label {
+                elide: Label.ElideRight
+                text: "Please enter the password: "
+                Layout.fillWidth: true
+            }
+
+            TextField {
+                id: passwordField
+                placeholderText: "Password"
+                echoMode: TextField.Password
+                Layout.fillWidth: true
+            }
+        }
+
+        onButtonClicked: {
+            if (clickedButton === Dialog.Ok) {
+                archive.password = passwordField.text
+            }
+        }
+    }
+
+    Connections {
+        target: archive
+        onFailedToOpen: {
+            fileErrorDialog.open()
+        }
+
+        onPasswordRequired: {
+            passwordDialog.open()
+        }
+
+        onPasswordCorrect: {
+            archive.path = zipFilePath.text
+        }
+
+        onPasswordIncorrect: {
+            passwordError.open()
+        }
+    }
 }
