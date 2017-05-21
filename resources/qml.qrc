@@ -11,5 +11,6 @@
         <file>SettingsView.qml</file>
         <file>images/close.png</file>
         <file>FileSelectDialog.qml</file>
+        <file>images/browse_files.png</file>
     </qresource>
 </RCC>

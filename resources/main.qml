@@ -198,7 +198,7 @@ Rectangle {
                         height: width
 
                         contentItem: Image {
-                            source: "images/settings.png" // just a placeholder
+                            source: "images/browse_files.png"
                         }
 
                         onClicked: {
