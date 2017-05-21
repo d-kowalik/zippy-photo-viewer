@@ -56,6 +56,10 @@ Popup {
         ToolButton {
             anchors.horizontalCenter: Qt.AlignRight
             text: "Ok"
+            onClicked: {
+                archive.path = zipFilePath.text
+                fileSelectDialog.close()
+            }
         }
     }
 
