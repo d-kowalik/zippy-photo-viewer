@@ -31,6 +31,11 @@ Rectangle {
         }
     }
 
+    Shortcut {
+        sequence: "Esc"
+        onActivated: drawer.close()
+    }
+
     Rectangle {
         id: toolbar
         Layout.fillWidth: parent
