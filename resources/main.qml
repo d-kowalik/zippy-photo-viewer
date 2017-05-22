@@ -258,6 +258,11 @@ Rectangle {
             anchors.fill: parent
             color: "transparent"
 
+            BusyIndicator {
+                running: mainImage.status === Image.Loading
+                anchors.centerIn: parent
+            }
+
             ScalableImage {
                 id: mainImage
 
