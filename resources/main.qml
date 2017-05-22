@@ -36,6 +36,17 @@ Rectangle {
         onActivated: drawer.close()
     }
 
+    Shortcut {
+        sequence: "Right"
+        onActivated: myModel.goToNextImage()
+    }
+
+    Shortcut {
+        sequence: "Left"
+        onActivated: myModel.goToPreviousImage()
+    }
+
+
     Rectangle {
         id: toolbar
         Layout.fillWidth: parent
@@ -236,15 +247,6 @@ Rectangle {
         anchors.fill: mainStackView.depth === 1 ? parent : null
         focus: true
         anchors.top: (mainStackView.depth === 1) ? (mainWindow.bottom) : (toolbar.bottom)
-
-        Keys.onPressed: {
-            if (event.key === Qt.Key_Left) {
-                myModel.goToPreviousImage()
-            }
-            else if (event.key === Qt.Key_Right) {
-                myModel.goToNextImage()
-            }
-        }
 
         onDepthChanged: {
             if (depth == 1) {
