@@ -131,26 +131,28 @@ void QMainPanel::close()
 }
 
   void QMainPanel::mousePressEvent( QMouseEvent *event ) {
-      if (0) { // Not needed anymore - may come in handy later
-        if ( event->button() == Qt::LeftButton ) {
-           ReleaseCapture();
-           SendMessage( windowHandle, WM_NCLBUTTONDOWN, HTCAPTION, 0 );
-        }
-        if ( event->type() == QEvent::MouseButtonDblClick ) {
-          if (event -> button() == Qt::LeftButton) {
-            WINDOWPLACEMENT wp;
-            wp.length = sizeof( WINDOWPLACEMENT );
-            GetWindowPlacement( parentHwnd(), &wp );
-            if ( wp.showCmd == SW_MAXIMIZE ) {
-              ShowWindow( parentHwnd(), SW_RESTORE );
-            } else {
-              ShowWindow( parentHwnd(), SW_MAXIMIZE );
-            }
-          }
-        }
-      } else { // Always executed
-          QQuickView::mousePressEvent(event);
-      }
+    if (event->button() == Qt::XButton1) { // Button 5
+        emit mouseButton5Pressed();
+    } else {
+        QQuickView::mousePressEvent(event);
+    }
+
+//    if ( event->button() == Qt::LeftButton ) {
+//       ReleaseCapture();
+//       SendMessage( windowHandle, WM_NCLBUTTONDOWN, HTCAPTION, 0 );
+//    }
+//    if ( event->type() == QEvent::MouseButtonDblClick ) {
+//      if (event -> button() == Qt::LeftButton) {
+//        WINDOWPLACEMENT wp;
+//        wp.length = sizeof( WINDOWPLACEMENT );
+//        GetWindowPlacement( parentHwnd(), &wp );
+//        if ( wp.showCmd == SW_MAXIMIZE ) {
+//          ShowWindow( parentHwnd(), SW_RESTORE );
+//        } else {
+//          ShowWindow( parentHwnd(), SW_MAXIMIZE );
+//        }
+//      }
+//    }
   }
 
 void QMainPanel::setSize(int x, int y)

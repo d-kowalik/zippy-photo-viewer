@@ -33,7 +33,8 @@ public slots:
 private:
     HWND windowHandle;
 
-protected:
+signals:
+    mouseButton5Pressed();
 
 };
 
