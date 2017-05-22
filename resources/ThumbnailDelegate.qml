@@ -16,6 +16,11 @@ ItemDelegate {
     width: 400
     height: 200
 
+    BusyIndicator {
+        running: thumbnail.status === Image.Loading
+        anchors.centerIn: parent
+    }
+
     Image {
         id: thumbnail
 
