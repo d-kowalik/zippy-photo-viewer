@@ -10,8 +10,8 @@
         <file>images/settings.png</file>
         <file>SettingsView.qml</file>
         <file>images/close.png</file>
-        <file>FileSelectDialog.qml</file>
         <file>images/browse_files.png</file>
         <file>ScalableImage.qml</file>
+        <file>FileSelectDialog.qml</file>
     </qresource>
 </RCC>

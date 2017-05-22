@@ -20,6 +20,10 @@ Popup {
 
     parent: ApplicationWindow.overlay
 
+    onClosed: {
+        fileErrorText.visible = false
+    }
+
     ColumnLayout {
         spacing: 20
         anchors.fill: parent
@@ -44,6 +48,7 @@ Popup {
                 placeholderText: "path"
                 font.pixelSize: 20
             }
+
             Button {
                 id: fileBrowseButton
                 text: "..."
@@ -54,12 +59,21 @@ Popup {
             }
         }
 
-        ToolButton {
-            anchors.horizontalCenter: Qt.AlignRight
-            text: "Ok"
-            onClicked: {
-                archive.path = zipFilePath.text
-                fileSelectDialog.close()
+        RowLayout {
+
+            ToolButton {
+                anchors.horizontalCenter: Qt.AlignRight
+                text: "Ok"
+                onClicked: {
+                    archive.path = zipFilePath.text
+                }
+            }
+
+            Label {
+                id: fileErrorText
+                color: Material.color("red")
+                text: "Failed to open the file"
+                visible: false
             }
         }
     }
@@ -70,19 +84,6 @@ Popup {
 
         onSelectionAccepted: {
             zipFilePath.text = fileUrl.toString().split("///")[1] // It gets rid of file:///, gotta replace this line with something better
-        }
-    }
-
-    Popup {
-        id: fileErrorDialog
-
-        x: (mainWindow.width - width) / 2
-        y: (mainWindow.height - height) / 2
-
-        parent: ApplicationWindow.overlay
-
-        contentItem: Label {
-            text: "Failed to open the file"
         }
     }
 
@@ -137,7 +138,11 @@ Popup {
     Connections {
         target: archive
         onFailedToOpen: {
-            fileErrorDialog.open()
+            fileErrorText.visible = true
+        }
+
+        onPathChanged: {
+            fileSelectDialog.close()
         }
 
         onPasswordRequired: {
