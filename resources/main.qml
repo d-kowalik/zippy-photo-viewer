@@ -23,11 +23,25 @@ Rectangle {
         return imageProvider + imagePath
     }
 
+    function goToPreviousFolderOrCloseDrawer() {
+        if (myModel.currentFolderName === "/")
+            drawer.close()
+        else
+            myModel.currentFolderName = myModel.parentFolderName
+    }
+
     Connections {
         target: archive
         onPathChanged: {
             myModel.reloadFolderStructure()
             myModel.refresh()
+        }
+    }
+
+    Connections {
+        target: mainWindow
+        onMouseButton5Pressed: {
+            goToPreviousFolderOrCloseDrawer()
         }
     }
 
@@ -197,10 +211,7 @@ Rectangle {
                         }
 
                         onClicked: {
-                            if (myModel.currentFolderName === "/")
-                                drawer.close()
-                            else
-                                myModel.currentFolderName = myModel.parentFolderName
+                            goToPreviousFolderOrCloseDrawer()
                         }
                     }
 
