@@ -13,7 +13,7 @@ HWND winId = 0;
 QMainPanel *BorderlessWindow::mainPanel;
 QGuiApplication *BorderlessWindow::a;
 
-BorderlessWindow::BorderlessWindow( QGuiApplication *app, HBRUSH windowBackground, const int x, const int y, const int width, const int height ) : hWnd( 0 ),
+BorderlessWindow::BorderlessWindow( QGuiApplication *app, QMainPanel* panel, HBRUSH windowBackground, const int x, const int y, const int width, const int height ) : hWnd( 0 ),
   hInstance( GetModuleHandle( NULL ) ),
   borderless( false ),
   borderlessResizeable( true ),
@@ -41,7 +41,8 @@ BorderlessWindow::BorderlessWindow( QGuiApplication *app, HBRUSH windowBackgroun
   SetWindowLongPtr( hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>( this ) );
 
 
-  mainPanel = new QMainPanel( hWnd );
+  mainPanel = panel;
+  mainPanel->init(hWnd);
   mainPanel->setSize(width - 2, height - 2);
   mainPanel->setPosition(1, 1);
   winId = ( HWND )mainPanel->winId();

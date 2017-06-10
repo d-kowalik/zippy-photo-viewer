@@ -16,7 +16,7 @@ public:
   HWND hWnd;
   HINSTANCE hInstance;
 
-  BorderlessWindow( QGuiApplication *app, HBRUSH windowBackground, const int x, const int y, const int width, const int height );
+  BorderlessWindow(QGuiApplication *app, QMainPanel *panel, HBRUSH windowBackground, const int x, const int y, const int width, const int height );
   ~BorderlessWindow();
   static LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );
   void show();

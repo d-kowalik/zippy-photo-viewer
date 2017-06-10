@@ -9,7 +9,7 @@ class QMainPanel : public QQuickView {
 
     QWindow* parent;
 public:
-  QMainPanel( HWND hWnd );
+  QMainPanel();
 #if QT_VERSION >= 0x050000
   bool nativeEvent(const QByteArray &, void *msg, long *result);
 #else
@@ -20,6 +20,7 @@ public:
 
   void setSize(int x, int y);
 
+  void init(HWND hWnd);
 public slots:
     void pushButtonMinimizeClicked();
     void pushButtonMaximizeClicked();

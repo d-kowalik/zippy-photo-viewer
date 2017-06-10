@@ -15,24 +15,13 @@
 #include "src/zipitemmodel.hpp"
 
 
-QMainPanel::QMainPanel( HWND hWnd ) {
-
-    windowHandle = hWnd;
+QMainPanel::QMainPanel() {
     setResizeMode(ResizeMode::SizeViewToRootObject);
-
-    QString zipFile = "";
-    if (QGuiApplication::arguments().length() > 1) {
-        zipFile = QGuiApplication::arguments()[1];
-    }
-    auto archive = QSharedPointer<Zip::Archive>::create(zipFile);
-    ZipImageProvider* provider = new ZipImageProvider(archive);
-    ZipItemModel* model = new ZipItemModel(archive);
-
-    rootContext()->setContextProperty("archive", archive.data());
-    rootContext()->setContextProperty("myModel", model);
-    engine()->addImageProvider(QLatin1String("zipimageprovider"), provider);
     rootContext()->setContextProperty("mainWindow", this);
-    setSource(QUrl("qrc:/main.qml"));
+}
+
+void QMainPanel::init(HWND hWnd) {
+    windowHandle = hWnd;
 
     parent = QWindow::fromWinId(reinterpret_cast<WId>(hWnd));
     setParent(parent);
