@@ -42,7 +42,8 @@ BorderlessWindow::BorderlessWindow( QGuiApplication *app, HBRUSH windowBackgroun
 
 
   mainPanel = new QMainPanel( hWnd );
-  mainPanel->setSize(width, height - 2);
+  mainPanel->setSize(width - 2, height - 2);
+  mainPanel->setPosition(1, 1);
   winId = ( HWND )mainPanel->winId();
 
   show();
@@ -239,7 +240,7 @@ LRESULT CALLBACK BorderlessWindow::WndProc( HWND hWnd, UINT message, WPARAM wPar
       wp.length = sizeof( WINDOWPLACEMENT );
       GetWindowPlacement( hWnd, &wp );
       static int i = 0;
-      mainPanel->setSize(winrect.right - winrect.left, winrect.bottom - winrect.top - 5);
+      mainPanel->setSize(winrect.right - winrect.left - 2, winrect.bottom - winrect.top - 2);
       return DefWindowProc(hWnd, message, wParam, lParam);
     }
 
