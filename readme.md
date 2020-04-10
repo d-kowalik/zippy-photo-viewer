@@ -1,5 +1,11 @@
 # Zippy
-Zip Photo Viewer
+Browser for archived collections of images
+
+![Screenshots #1](screenshots/1.png)
+
+
+![Screenshots #2](screenshots/2.png)
+
 
 ### Dependencies
 - [Quazip](http://quazip.sourceforge.net/ "Quazip") - handles zipping and unzipping
