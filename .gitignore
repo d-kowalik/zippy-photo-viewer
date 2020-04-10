@@ -10,7 +10,8 @@
 *.dll
 *.dylib
 
-libs/
+#libs/
+wip-libs/
 
 # Qt-es
 

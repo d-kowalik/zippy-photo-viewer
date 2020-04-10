@@ -13,6 +13,8 @@
 #include <QQuickWindow>
 #include <QAbstractNativeEventFilter>
 
+#include <iostream>
+
 #include <quazipfile.h>
 
 #include "zip/archive.hpp"
@@ -23,6 +25,8 @@
 
 int main(int argc, char *argv[])
 {
+    std::cout << "TEST!" << std::endl;
+
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication application(argc, argv);
 
@@ -36,6 +40,7 @@ int main(int argc, char *argv[])
     ZipItemModel* model = new ZipItemModel(archive);
 
     QMainPanel* panel = new QMainPanel();
+    panel->setSize(1024, 768);
     panel->rootContext()->setContextProperty("archive", archive.data());
     panel->rootContext()->setContextProperty("myModel", model);
     panel->engine()->addImageProvider(QLatin1String("zipimageprovider"), provider);
